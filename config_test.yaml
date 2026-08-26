@@ -1,0 +1,105 @@
+# RoC workflow configuration file
+
+project:
+  name: "Rates-of-Change-RoC-for-Deeptime-data"
+
+input:
+  file: "data/O.xlsx"
+  sheet: 0
+  age_column: "Age"
+  value_column: "Value"
+
+output:
+  directory: "outputs"
+
+# Age unit is kyr.
+timebin:
+  start_age_kyr: 67000
+  end_age_kyr: 0
+  resolution_kyr: 100
+  widths_kyr:
+    - 100
+    - 500
+    - 1000
+
+methods:
+  run_ibr: true
+  run_ts: true
+  run_iqr: true
+  theilsen_alpha: 0.90
+  # IQR quartile calculation method:
+  # "inc" = inclusive quartile, equivalent to Excel QUARTILE.INC / PERCENTILE.INC
+  # "exc" = exclusive quartile, equivalent to Excel QUARTILE.EXC / PERCENTILE.EXC
+  iqr_quartile_method: "exc"
+  iqr_min_count: 5
+
+interpolation:
+  method: "weighted"
+  count_weight_alpha: 1.0
+  distance_weight_beta: 1.0
+  edge_mode: "nearest"
+
+analysis:
+  run_lri: true
+  run_metrics: true
+  run_pwlf: true
+  run_kde: true
+  run_phase: true
+
+lri:
+  quantile_levels: [25, 50, 75]
+
+metrics:
+  age_tolerance_relative: 0.001
+
+breakpoint:
+  data_type: time_scale_corrected_relative
+  age_min_kyr: 0
+  age_max_kyr: 67100
+  segments: [5, 6]
+  half_window_kyr: 1000
+  min_points: 5
+  alpha: 0.05
+
+kde:
+  age_col: Breakpoint_kyr
+  confidence_col: Confidence
+  significant_col: Significant
+  significant_only: true
+  fallback_to_all_if_empty: true
+  use_confidence_weight: true
+  age_min_kyr: 0
+  age_max_kyr: 67100
+  grid_step_kyr: 100
+  bandwidth_kyr: 1000
+  min_prominence_fraction: 0.05
+  min_distance_kyr: 1000
+  top_n_peaks: 10
+
+phase:
+  age_min_kyr: 0
+  age_max_kyr: 67100
+  breakpoint_col: Consensus_breakpoint_kyr
+  sort_breakpoints: true
+  min_phase_width_kyr: 0
+  classification_labels:
+    - Maximum
+    - High
+    - Moderate
+    - Transitional
+    - Reduced
+    - Low
+    - Minimal
+
+plotting:
+  enabled: true
+  figure_formats: ["svg", "png"]
+  dpi: 600
+  age_min_kyr: 0
+  age_max_kyr: 67100
+
+preprocess:
+  sort_by_age: true
+  use_zscore: true
+  zscore_column: "Z_score"
+  save_preprocessed: true
