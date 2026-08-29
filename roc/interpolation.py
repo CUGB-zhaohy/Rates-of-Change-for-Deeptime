@@ -11,7 +11,8 @@ This module supports three interpolation modes:
    Missing values are filled by linear interpolation along the age axis.
 
 3. weighted
-   Missing values are filled by distance-count weighted interpolation:
+   Missing values are filled from the nearest valid age node on each side by
+   distance-count weighted interpolation:
        weight = Counts^alpha / Distance^beta
 
 The same interpolation interface is used for:
@@ -245,7 +246,12 @@ def _weighted_value_for_one_age(
     edge_mode: str,
 ) -> float:
     """
-    Calculate one distance-count weighted interpolated value.
+    Calculate one bracketing-neighbour weighted interpolated value.
+
+    Internal targets use exactly two contributors: the nearest valid age node
+    below the target and the nearest valid age node above it. Valid nodes
+    farther away do not contribute. Targets outside the valid age range are
+    handled by ``edge_mode``.
     """
     edge_mode = normalize_edge_mode(edge_mode)
 
@@ -275,11 +281,36 @@ def _weighted_value_for_one_age(
     if np.any(exact_match):
         return float(valid_values[exact_match][0])
 
-    safe_counts = np.asarray(valid_counts, dtype=float)
+    lower_candidates = np.where(valid_ages < target_age)[0]
+    upper_candidates = np.where(valid_ages > target_age)[0]
+
+    if lower_candidates.size == 0 or upper_candidates.size == 0:
+        # This branch is defensive because outside targets are handled above.
+        # It also keeps behaviour explicit if non-standard age arrays are used.
+        if edge_mode == "nan":
+            return np.nan
+        if edge_mode == "zero":
+            return 0.0
+        nearest_index = int(np.argmin(distances))
+        return float(valid_values[nearest_index])
+
+    lower_index = int(
+        lower_candidates[np.argmax(valid_ages[lower_candidates])]
+    )
+    upper_index = int(
+        upper_candidates[np.argmin(valid_ages[upper_candidates])]
+    )
+    neighbour_indices = np.asarray([lower_index, upper_index], dtype=int)
+
+    neighbour_values = valid_values[neighbour_indices]
+    neighbour_counts = valid_counts[neighbour_indices]
+    neighbour_distances = distances[neighbour_indices]
+
+    safe_counts = np.asarray(neighbour_counts, dtype=float)
     safe_counts = np.where(np.isfinite(safe_counts), safe_counts, 1.0)
     safe_counts = np.where(safe_counts > 0, safe_counts, 1.0)
 
-    safe_distances = np.asarray(distances, dtype=float)
+    safe_distances = np.asarray(neighbour_distances, dtype=float)
     safe_distances = np.where(safe_distances > 0, safe_distances, np.nan)
 
     count_weights = safe_counts ** float(count_alpha)
@@ -297,7 +328,7 @@ def _weighted_value_for_one_age(
         return np.nan
 
     weights = weights[valid_weight_mask]
-    values = valid_values[valid_weight_mask]
+    values = neighbour_values[valid_weight_mask]
 
     return float(np.sum(weights * values) / np.sum(weights))
 
@@ -315,11 +346,18 @@ def interpolate_weighted(
     """
     Fill missing values using distance-count weighted interpolation.
 
-    For a missing target value at age t, all valid age nodes contribute with:
+    For a missing target value at age t, the nearest valid age node on each
+    side contributes with:
 
         weight = Counts^count_alpha / Distance^distance_beta
 
-    Existing valid values are preserved.
+    If the two bracketing nodes are ``prev`` and ``next``, the estimate is:
+
+        (weight_prev * value_prev + weight_next * value_next)
+        / (weight_prev + weight_next)
+
+    Existing valid values are preserved. Missing values outside the valid age
+    range are controlled by ``edge_mode``.
     """
     _validate_required_columns(
         table=table,

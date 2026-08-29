@@ -16,6 +16,7 @@ launch `RoC_Workflow.exe`.
 - Supports IBR, TS, IQR, LRI correction, nTV/Gini, PWLF, KDE, phase statistics, and figures.
 - Includes quick-test and full-resolution configurations.
 - Accepts user-supplied Excel age-value records.
+- Weighted interpolation uses only the two nearest valid bins that bracket an internal missing target; more distant valid bins do not contribute.
 
 ## Known limitation
 
@@ -27,5 +28,5 @@ workflow and should be run separately when needed.
 `RoC_Workflow_Windows_v1.0.1.zip`
 
 ```text
-SHA-256: A9390A5C04CB4CD6E71D3529568071EBCA316572381DD03CF32B65464D80E423
+SHA-256: 6897147058A1A885FE6A85CDA08438A7BB13F89CDB79DDE69520364146DF8862
 ```

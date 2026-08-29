@@ -18,10 +18,26 @@ analytical time scale. Time-bin construction is implemented in
 
 ## Missing-bin interpolation
 
-The recommended distance-count method combines inverse temporal distance with
-the sample count in neighbouring valid bins. Its two exponents are configured
-as `count_weight_alpha` and `distance_weight_beta`. Linear interpolation and no
-interpolation are also supported. See `roc/interpolation.py`.
+For an internal missing target at age `t`, the recommended distance-count
+method selects exactly two contributors: the nearest valid bin at the lower
+age and the nearest valid bin at the higher age. More distant valid bins are
+excluded. For each bracketing bin `i`,
+
+```text
+w_i = c_i^alpha / |t_i - t|^beta
+```
+
+and the interpolated value is
+
+```text
+x(t) = (w_prev * x_prev + w_next * x_next) / (w_prev + w_next)
+```
+
+where `c_i` is the sample count, `t_i` is the bin age, and `x_i` is the valid
+bin value. The exponents are configured as `count_weight_alpha` and
+`distance_weight_beta`; both default to 1. Missing targets outside the valid
+age range follow `edge_mode` (`nearest`, `nan`, or `zero`). Linear interpolation
+and no interpolation are also supported. See `roc/interpolation.py`.
 
 ## RoC-related metrics
 

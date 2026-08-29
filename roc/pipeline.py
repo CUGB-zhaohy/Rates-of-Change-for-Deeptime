@@ -110,8 +110,8 @@ def get_interpolation_settings(config: dict[str, Any]) -> dict[str, Any]:
     - linear
     - weighted
 
-    The default method is weighted, which preserves the original workflow
-    behavior.
+    The default weighted method uses the nearest valid bin on each side of an
+    internal missing target.
     """
     method = _get_nested(config, "interpolation", "method", "weighted")
     count_alpha = _get_nested(config, "interpolation", "count_weight_alpha", 1.0)

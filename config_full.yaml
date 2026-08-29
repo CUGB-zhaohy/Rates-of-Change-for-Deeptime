@@ -49,6 +49,7 @@ methods:
   iqr_min_count: 2
 
 interpolation:
+  # Internal gaps use the nearest valid bin on each side only.
   method: "weighted"
   count_weight_alpha: 1.0
   distance_weight_beta: 1.0

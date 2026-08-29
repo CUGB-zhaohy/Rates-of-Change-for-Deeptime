@@ -25,7 +25,17 @@ import re
 
 import numpy as np
 import pandas as pd
+import matplotlib
+
+# Figure generation runs in the backend process and must not depend on a GUI
+# display or Tcl/Tk runtime, especially in the packaged Windows executable.
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
+# Matplotlib loads vector writers dynamically. Explicit imports ensure that
+# PyInstaller includes the SVG and PDF writers used by configured outputs.
+from matplotlib.backends import backend_pdf as _backend_pdf  # noqa: F401
+from matplotlib.backends import backend_svg as _backend_svg  # noqa: F401
 
 
 METHOD_ORDER = ["IBR", "TS", "IQR"]

@@ -17,7 +17,7 @@ The main workflow performs:
 
 1. preprocessing of age-value data;
 2. sliding time-bin calculation;
-3. distance-count weighted interpolation;
+3. distance-count weighted interpolation using the nearest valid bin on each side of a missing target;
 4. RoC estimation with Inter-bin Rate (IBR), Theil-Sen regression (TS), and Interquartile Range (IQR);
 5. multi-timescale result merging;
 6. Log-Rate-Interval (LRI) regression and time-scale correction;
@@ -127,6 +127,14 @@ LRI, metrics, breakpoint detection, KDE, phase statistics, and plotting.
 
 GUI settings override corresponding YAML values at runtime; advanced parameters
 that are not shown in the GUI remain controlled by the selected YAML file.
+
+For distance-count weighted interpolation, an internal missing target at age
+`t` uses only the nearest valid bin on each side. If these bracketing bins are
+`prev` and `next`, their weights are
+`w_i = Counts_i^alpha / |Age_i - t|^beta`, and the interpolated value is
+`(w_prev*x_prev + w_next*x_next) / (w_prev + w_next)`. More distant valid bins
+do not contribute. The configured edge mode applies only when a missing target
+lies outside the valid age range.
 
 ## Output structure
 
