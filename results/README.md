@@ -15,6 +15,7 @@ location.
 | `PWLF/` | Piecewise-linear breakpoint and significance results for each metric and time scale |
 | `KDE/` | Pooled breakpoint tables, confidence-weighted KDE peaks, and SVG density figures |
 | `Phase/` | Phase-summary SVG figures for IBR, TS, and IQR at 50-1000 kyr |
+| `sampling_density/` | Random-subsampling metrics, ensemble summaries, and Appendix C vector figures at 100 and 1000 kyr |
 
 The six IBR consensus boundaries used in the manuscript occur at approximately
 55.97, 42.14, 33.76, 24.34, 13.27, and 3.63 Ma. They divide the record into
@@ -30,6 +31,18 @@ largest individual RoC peak.
 - `KDE/O_IBR_all_PWLF_breakpoints_50-1000_5to10_W_KDE_density_peaks.svg`:
   confidence-weighted KDE of IBR candidate breakpoints.
 - `RoC_norm/O_IBR_all.xlsx`: merged LRI-corrected relative IBR series.
+- `sampling_density/figures/Fig_C1_sampling_density_sensitivity_100kyr.svg`:
+  sensitivity results for the 100 kyr analytical window.
+- `sampling_density/figures/Fig_C2_sampling_density_sensitivity_1000kyr.svg`:
+  sensitivity results for the 1000 kyr analytical window.
+
+The sampling-density analysis retains one randomly selected observation in
+each 20, 50, or 100 kyr subsampling interval and repeats each configuration 200
+times for IBR, TS, and IQR. Per-iteration MAE and MAPE tables are archived under
+`sampling_density/metrics/`, and ensemble means with empirical 2.5th and 97.5th
+percentiles are archived under `sampling_density/summary_curves/`. Because MAPE
+is unstable when the full-data reference approaches zero, it should be read
+with MAE and the ensemble curves rather than used alone for cross-method ranking.
 
 ## Inventory and integrity
 
@@ -48,4 +61,3 @@ applies to the software code; third-party source data remain subject to their
 original terms.
 
 Repository: <https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime>
-

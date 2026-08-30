@@ -16,8 +16,11 @@ All notable software changes are documented here.
 - SVG and PNG summary figures, run logs, and in-application result preview.
 - Non-interactive figure rendering for reliable execution in the packaged Windows backend.
 - English Windows user manual.
+- Separate reproducibility script, full input table, compact archived results,
+  and documentation for the manuscript sampling-density sensitivity analysis.
 
 ### Clarified
 
 - IQR is a within-bin variability metric rather than a conventional rate estimator.
-- Sampling-density sensitivity remains a separate analysis outside the main GUI workflow.
+- Sampling-density sensitivity remains a separate analysis outside the main
+  GUI workflow and is launched with `run_sampling_density_analysis.py`.

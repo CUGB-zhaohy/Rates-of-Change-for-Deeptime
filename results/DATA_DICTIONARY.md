@@ -11,6 +11,8 @@
 | LRI | Log-Rate-Interval analysis used to quantify and correct first-order interval dependence |
 | PWLF | Piecewise linear fitting of the cumulative corrected RoC series |
 | KDE | Kernel density estimation used to integrate candidate breakpoint ages |
+| MAE | Mean absolute error relative to the full-data result |
+| MAPE | Mean absolute percentage error relative to the full-data result |
 | kyr | Thousand years |
 | Ma | Million years before present |
 
@@ -26,6 +28,10 @@
 - `_5to10` denotes PWLF candidate models containing 5-10 segments.
 - `with_significance` denotes breakpoint tables that include local slope-change
   support and significance diagnostics.
+- `RandomSubsampling` denotes the separate sampling-density sensitivity
+  experiment.
+- A suffix such as `_20kyr_metrics` identifies the interval within which one
+  observation was randomly retained during each iteration.
 
 ## Common table fields
 
@@ -43,6 +49,13 @@ The exact columns vary by processing stage. Common fields include:
 | `consensus_age` | KDE consensus breakpoint age, normally in kyr unless a `_Ma` field is provided |
 | `density_height`, `prominence`, `FWHM` | KDE peak diagnostics |
 | `SD`, `SE`, `95%CI` | Descriptive phase-summary statistics where present |
+| `Iteration` | Random-subsampling iteration number, from 1 to 200 |
+| `Timebin_width_kyr` | Analytical window used to calculate the metric |
+| `Random_subsampling_width_kyr` | Width of the interval used to retain one random observation |
+| `MAE` | Mean absolute difference from the full-data reference series |
+| `MAPE_percent` | Mean absolute percentage difference from the nonzero full-data reference values |
+| `ensemble_mean` | Mean result across 200 random-subsampling iterations |
+| `empirical_lower_95`, `empirical_upper_95` | 2.5th and 97.5th percentiles across iterations |
 
 ## Interpretation cautions
 
@@ -54,4 +67,6 @@ The exact columns vary by processing stage. Common fields include:
    frequentist probability or confidence interval.
 4. Excel workbooks are preserved as calculation records; the manifest and SVG
    files provide browser-readable navigation and previews.
-
+5. MAPE can become extremely large when reference values are close to zero.
+   Sampling-density results should therefore be evaluated using MAE, MAPE, and
+   the ensemble curves together.

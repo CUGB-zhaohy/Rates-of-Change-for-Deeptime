@@ -31,8 +31,8 @@ IBR and TS are time-explicit RoC estimators. IQR is treated as a within-bin
 variability metric rather than a conventional rate estimator.
 
 > **Scope note:** The sampling-density sensitivity experiments reported in the
-> associated manuscript are maintained as a separate analysis and are not part
-> of the v1.0.1 main GUI workflow.
+> associated manuscript are maintained as a separate reproducibility analysis
+> in `roc/sensitivity.py`. They are not part of the v1.0.1 main GUI workflow.
 
 ## Graphical application
 
@@ -94,6 +94,8 @@ Input must be an Excel workbook containing at least two numeric columns:
 If age is originally expressed in Ma, multiply it by 1000 before analysis.
 Invalid age-value rows are removed, duplicate ages are averaged, and records can
 be sorted automatically. The included `data/O.xlsx` provides an example input.
+The full CENOGRID-derived input used for the sampling-density experiment is
+archived as `data/CENOGRID_benthic_d18O_sampling_density.xlsx`.
 
 ## Quick test
 
@@ -114,6 +116,18 @@ Run the full 50-1000 kyr analysis:
 ```bash
 python main.py --config config_full.yaml
 ```
+
+Run the separate sampling-density experiment:
+
+```bash
+python run_sampling_density_analysis.py
+```
+
+This experiment uses 200 random iterations for every combination of method,
+analytical window, and subsampling interval and can require substantial time
+and disk space. See
+[docs/SAMPLING_DENSITY_ANALYSIS.md](docs/SAMPLING_DENSITY_ANALYSIS.md) for the
+design, archived outputs, and interpretation of the error metrics.
 
 Use `--debug` with any command to display the full traceback.
 
@@ -169,6 +183,8 @@ and phase interpretation can be traced to the same release.
 - `results/PWLF/`: breakpoint and significance tables for 50-1000 kyr;
 - `results/KDE/`: pooled breakpoint tables, KDE peaks, and density figures;
 - `results/Phase/`: phase-level figures for IBR, TS, and IQR;
+- `results/sampling_density/`: random-subsampling metrics, ensemble summaries,
+  and Appendix C vector figures for the 100 and 1000 kyr analyses;
 - `results/MANIFEST.csv`: machine-readable inventory with file sizes and hashes;
 - `results/DATA_DICTIONARY.md`: definitions of directories, metrics, and fields.
 
@@ -192,6 +208,7 @@ See [docs/METHODS.md](docs/METHODS.md) for implementation details.
 .
 ├── main.py
 ├── gui.py
+├── run_sampling_density_analysis.py
 ├── roc/
 ├── data/
 ├── results/
