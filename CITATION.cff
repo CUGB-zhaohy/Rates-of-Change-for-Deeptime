@@ -3,7 +3,7 @@ message: "If you use this software, please cite the associated manuscript and th
 title: "Deeptime RoC Analysis: Rates-of-Change Workflow for Deep-Time Data"
 type: software
 version: 1.0.1
-date-released: 2026-06-12
+date-released: 2026-08-31
 authors:
   - family-names: Zhao
     given-names: Hongyi

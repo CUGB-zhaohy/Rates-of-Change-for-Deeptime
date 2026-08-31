@@ -1,5 +1,5 @@
 """
-Main entry point for the RoC workflow.
+Main entry point for Deeptime RoC Analysis.
 
 Current available workflow:
 - load configuration file
@@ -67,7 +67,7 @@ def parse_args():
     Parse command-line arguments.
     """
     parser = argparse.ArgumentParser(
-        description="Run the multi-timescale RoC workflow."
+        description="Run the Deeptime RoC Analysis multi-timescale workflow."
     )
 
     parser.add_argument(
@@ -293,7 +293,7 @@ def main():
         if not config_path.is_absolute():
             config_path = project_root / config_path
 
-        print_section("RoC workflow started")
+        print_section("Deeptime RoC Analysis started")
         print(f"Project root: {project_root}")
         print(f"Config file : {config_path}")
         emit_progress(0, "Workflow started.")
@@ -373,8 +373,8 @@ def main():
 
             print_step(f"Preprocessed input table saved to: {preprocessed_path}")
 
-        emit_progress(20, "Starting full RoC workflow...")
-        print_step("Running full RoC workflow...")
+        emit_progress(20, "Starting the Deeptime RoC Analysis workflow...")
+        print_step("Running the Deeptime RoC Analysis workflow...")
 
         workflow_result = run_full_workflow(
             data=processed_data,
@@ -564,7 +564,7 @@ def main():
         iqr_min_count = methods_config.get("iqr_min_count", 5)
 
         summary_lines = [
-            "RoC workflow run summary",
+            "Deeptime RoC Analysis run summary",
             "=" * 40,
             f"Project root: {project_root}",
             f"Config file: {config_path}",
@@ -661,14 +661,14 @@ def main():
 
         print("")
         print("=" * 80)
-        print("RoC workflow completed successfully.")
+        print("Deeptime RoC Analysis completed successfully.")
         print(f"Run summary saved to: {summary_path}")
         print("=" * 80)
 
     except Exception as exc:
         print("")
         print("=" * 80)
-        print("RoC workflow failed")
+        print("Deeptime RoC Analysis failed")
         print("=" * 80)
         print(f"Error type   : {type(exc).__name__}")
         print(f"Error message: {exc}")

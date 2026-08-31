@@ -1,5 +1,5 @@
 """
-Graphical user interface for the RoC workflow.
+Graphical user interface for Deeptime RoC Analysis.
 
 This GUI is a wrapper around main.py. It does not change the calculation
 logic directly. Instead, it builds a temporary runtime configuration file
@@ -31,8 +31,6 @@ import queue
 import threading
 import subprocess
 from pathlib import Path
-import sys
-
 if sys.platform == "win32":
     try:
         import ctypes
@@ -57,7 +55,7 @@ except Exception:
 
 class RoCGUI(tk.Tk):
     """
-    Desktop GUI for running the RoC workflow.
+    Desktop GUI for running Deeptime RoC Analysis.
     """
 
     def __init__(self):
@@ -84,7 +82,7 @@ class RoCGUI(tk.Tk):
         else:
             self.project_root = Path(__file__).resolve().parent
 
-        self.title("RoC Workflow GUI")
+        self.title("Deeptime RoC Analysis")
         # Set GUI window icon.
         icon_path = self.project_root / "logo.ico"
 
@@ -365,7 +363,7 @@ class RoCGUI(tk.Tk):
 
         title_label = ttk.Label(
             main_frame,
-            text="Rates-of-Change RoC Workflow",
+            text="Deeptime RoC Analysis",
             font=self.title_font,
         )
         title_label.pack(anchor="w", pady=(0, 8))
@@ -946,7 +944,7 @@ class RoCGUI(tk.Tk):
         )
         self.log_text.pack(fill=tk.BOTH, expand=True)
 
-        self.write_log("RoC Workflow GUI started.")
+        self.write_log("Deeptime RoC Analysis GUI started.")
         self.write_log(f"Project root: {self.project_root}")
         self.write_log("Configure the workflow, then use Dry run or Run workflow.")
 

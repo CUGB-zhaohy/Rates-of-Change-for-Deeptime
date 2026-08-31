@@ -3,7 +3,7 @@
 cd "$(dirname "$0")"
 
 echo "============================================================"
-echo "RoC Workflow Launcher for macOS"
+echo "Deeptime RoC Analysis Launcher for macOS"
 echo "============================================================"
 echo "Project folder:"
 pwd
@@ -103,7 +103,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo "Starting RoC Workflow GUI..."
+echo "Starting Deeptime RoC Analysis..."
 echo ""
 
 python gui.py

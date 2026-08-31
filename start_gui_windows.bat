@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
 echo ============================================================
-echo RoC Workflow Launcher
+echo Deeptime RoC Analysis Launcher
 echo ============================================================
 echo Project folder:
 echo %cd%
@@ -128,7 +128,7 @@ if not exist ".gui_runtime\requirements_installed.flag" (
 REM ------------------------------------------------------------
 REM 5. Start GUI
 REM ------------------------------------------------------------
-echo Starting RoC Workflow GUI...
+echo Starting Deeptime RoC Analysis...
 echo.
 python gui.py
 

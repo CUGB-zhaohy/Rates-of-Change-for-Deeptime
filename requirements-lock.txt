@@ -1,0 +1,10 @@
+# Exact direct dependencies used to finalize Deeptime RoC Analysis v1.0.1.
+# Tested with CPython 3.12.13 on Windows 11.
+numpy==2.5.2
+pandas==3.0.5
+scipy==1.18.1
+matplotlib==3.11.1
+openpyxl==3.1.5
+PyYAML==6.0.3
+pwlf==2.6.0
+Pillow==12.3.0

@@ -2,14 +2,19 @@
 
 ![Deeptime RoC Analysis logo](logo.png)
 
+[![Release](https://img.shields.io/badge/release-v1.0.1-blue.svg)](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/releases/tag/v1.0.1)
+[![Smoke test](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/actions/workflows/smoke-test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **Deeptime RoC Analysis** is a reproducible workflow for multi-timescale
 rate-of-change (RoC) analysis of irregular deep-time palaeoclimate and
 palaeoenvironmental records. It is available as Python source code and as a
-standalone Windows application with a stepwise graphical interface.
+standalone Windows application with a five-step graphical interface.
 
-Current release: **v1.0.1**  
-License: **MIT**  
-Documentation: [English Windows manual](docs/Deeptime_RoC_Analysis_Windows_User_Manual_v1.0.1.pdf) and [upload guide](UPLOAD_GUIDE.md)
+- Current release: [v1.0.1](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/releases/tag/v1.0.1)
+- Release date: 2026-08-31
+- License: [MIT](LICENSE)
+- Documentation: [English Windows user manual](docs/Deeptime_RoC_Analysis_Windows_User_Manual_v1.0.1.pdf)
 
 ## What the workflow does
 
@@ -17,8 +22,10 @@ The main workflow performs:
 
 1. preprocessing of age-value data;
 2. sliding time-bin calculation;
-3. distance-count weighted interpolation using the nearest valid bin on each side of a missing target;
-4. RoC estimation with Inter-bin Rate (IBR), Theil-Sen regression (TS), and Interquartile Range (IQR);
+3. distance-count weighted interpolation using the nearest valid bin on each
+   side of an internal missing target;
+4. RoC estimation with Inter-bin Rate (IBR), Theil-Sen regression (TS), and
+   Interquartile Range (IQR);
 5. multi-timescale result merging;
 6. Log-Rate-Interval (LRI) regression and time-scale correction;
 7. nTV and Gini evaluation;
@@ -31,23 +38,35 @@ IBR and TS are time-explicit RoC estimators. IQR is treated as a within-bin
 variability metric rather than a conventional rate estimator.
 
 > **Scope note:** The sampling-density sensitivity experiments reported in the
-> associated manuscript are maintained as a separate reproducibility analysis
-> in `roc/sensitivity.py`. They are not part of the v1.0.1 main GUI workflow.
+> associated manuscript are implemented as a separate reproducibility analysis
+> in `roc/sensitivity.py`; they are not part of the v1.0.1 graphical workflow.
 
-## Graphical application
+## Windows application: quick start
 
-The Windows GUI guides users through five pages:
+1. Download `RoC_Workflow_Windows_v1.0.1.zip` from the
+   [v1.0.1 release](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/releases/tag/v1.0.1).
+2. Verify the accompanying SHA-256 checksum if required.
+3. Extract the complete archive into one folder.
+4. Keep `_internal` beside `RoC_Workflow.exe`.
+5. Double-click `RoC_Workflow.exe`.
+6. On **Run & Log**, select **Check settings / Dry run** before the first full
+   calculation.
 
-1. **Input Data** — choose an Excel file, sheet, age column, value column, sorting, and optional Z-score normalization.
-2. **RoC Settings** — set the age interval, output step, time-bin widths, methods, and interpolation.
-3. **Advanced Analysis** — enable LRI, metrics, PWLF, KDE, phase statistics, and figures.
-4. **Run & Log** — validate settings, run the workflow, monitor progress, and inspect logs.
-5. **Results Preview** — browse tables, logs, and generated PNG figures.
+The executable filename remains `RoC_Workflow.exe` for v1.0.1 compatibility;
+the software name shown in the interface and documentation is
+**Deeptime RoC Analysis**.
 
-Download the packaged Windows application from the repository's
-[Releases page](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/releases).
-After extracting the archive, keep its folder structure intact and launch
-`RoC_Workflow.exe`.
+The five GUI pages are:
+
+1. **Input Data** - select an Excel file, sheet, age column, value column,
+   sorting, and optional Z-score normalization.
+2. **RoC Settings** - set the age interval, output step, analytical time-bin
+   widths, methods, and interpolation.
+3. **Advanced Analysis** - enable LRI, nTV/Gini, PWLF, KDE, phase statistics,
+   and figure generation.
+4. **Run & Log** - validate settings, run the workflow, monitor progress, and
+   inspect diagnostics.
+5. **Results Preview** - browse tables, logs, and generated PNG figures.
 
 ## Run from source
 
@@ -56,30 +75,33 @@ After extracting the archive, keep its folder structure intact and launch
 - Python 3.10 or later
 - packages listed in `requirements.txt`
 
-### Installation
-
 ```bash
 git clone https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime.git
 cd Rates-of-Change-for-Deeptime
 python -m venv .venv
 ```
 
-Activate the environment and install dependencies:
+Activate the environment, then choose one installation route:
 
 ```bash
+# General compatible environment
 python -m pip install -r requirements.txt
+
+# Exact Python 3.12 environment used to finalize v1.0.1
+python -m pip install -r requirements-lock.txt
 ```
 
-On Windows, the included launcher can prepare the environment and open the GUI:
-
-```text
-start_gui_windows.bat
-```
-
-To launch the GUI directly:
+Launch the GUI directly:
 
 ```bash
 python gui.py
+```
+
+Windows and macOS launchers are also provided:
+
+```text
+start_gui_windows.bat
+start_gui_mac.command
 ```
 
 ## Input data
@@ -88,30 +110,38 @@ Input must be an Excel workbook containing at least two numeric columns:
 
 | Column | Meaning | Unit |
 |---|---|---|
-| `Age` | sample age | kyr |
-| `Value` | continuous proxy value | user-defined |
+| `Age` | Sample age | kyr |
+| `Value` | Continuous proxy value | User-defined |
 
 If age is originally expressed in Ma, multiply it by 1000 before analysis.
-Invalid age-value rows are removed, duplicate ages are averaged, and records can
-be sorted automatically. The included `data/O.xlsx` provides an example input.
-The full CENOGRID-derived input used for the sampling-density experiment is
-archived as `data/CENOGRID_benthic_d18O_sampling_density.xlsx`.
+Invalid age-value rows are removed, duplicate ages are averaged, and records
+can be sorted automatically. The included `data/O.xlsx` is the main example
+and manuscript input. The full sampling-density input is archived as
+`data/CENOGRID_benthic_d18O_sampling_density.xlsx`.
 
-## Quick test
+## Validation and manuscript reproduction
 
-Validate the example configuration without running the full workflow:
+`config_test.yaml` is a short software-validation configuration. It uses three
+representative analytical scales and intentionally differs from the manuscript
+configuration in resolution, Z-score use, and IQR settings. It must not be used
+as the parameter record for the published analysis.
+
+Validate the example input and test configuration:
 
 ```bash
 python main.py --config config_test.yaml --dry-run
 ```
 
-Run the short test configuration:
+Run the short validation workflow:
 
 ```bash
 python main.py --config config_test.yaml
 ```
 
-Run the full 50-1000 kyr analysis:
+`config_full.yaml` records the exact main-workflow parameters used for the
+associated manuscript: a 10 kyr output step, analytical windows from 50 to
+1000 kyr in 50 kyr increments, inclusive-linear IQR, and the published PWLF,
+KDE, and phase settings.
 
 ```bash
 python main.py --config config_full.yaml
@@ -123,24 +153,17 @@ Run the separate sampling-density experiment:
 python run_sampling_density_analysis.py
 ```
 
-This experiment uses 200 random iterations for every combination of method,
-analytical window, and subsampling interval and can require substantial time
-and disk space. See
+This analysis uses 200 random iterations for every method-window-subsampling
+combination and can require substantial time and disk space. See
 [docs/SAMPLING_DENSITY_ANALYSIS.md](docs/SAMPLING_DENSITY_ANALYSIS.md) for the
-design, archived outputs, and interpretation of the error metrics.
+design, fixed random seed, archived outputs, and interpretation of MAE and MAPE.
 
-Use `--debug` with any command to display the full traceback.
+Use `--debug` with a `main.py` command to display the full traceback.
 
 ## Configuration
 
 The YAML files control input, output, time-bin widths, interpolation, methods,
 LRI, metrics, breakpoint detection, KDE, phase statistics, and plotting.
-
-- `config_test.yaml`: quick validation and representative scales.
-- `config_full.yaml`: formal analysis from 50 to 1000 kyr in 50 kyr increments.
-
-GUI settings override corresponding YAML values at runtime; advanced parameters
-that are not shown in the GUI remain controlled by the selected YAML file.
 
 For distance-count weighted interpolation, an internal missing target at age
 `t` uses only the nearest valid bin on each side. If these bracketing bins are
@@ -154,51 +177,57 @@ lies outside the valid age range.
 
 ```text
 outputs/
-├── 01_timebin/
-├── 02_interpolated/
-├── 03_rate/
-├── 04_merged/
-├── 05_lri/
-├── 06_normalized/
-├── 07_metrics/
-├── 08_pwlf/
-├── 09_kde/
-├── 10_phase/
-├── figures/
-└── logs/
+|-- 00_preprocessed/
+|-- 01_timebin/
+|-- 02_interpolated/
+|-- 03_rate/
+|-- 04_merged/
+|-- 05_lri/
+|-- 06_normalized/
+|-- 07_metrics/
+|-- 08_pwlf/
+|-- 09_kde/
+|-- 10_phase/
+|-- figures/
+`-- logs/
 ```
 
 The run summary records the input, configuration, completed methods, and output
-files. Generated outputs are intentionally excluded from Git.
+files. Ordinary run outputs are excluded from Git; the publication-supporting
+subset is deliberately versioned under `results/`.
 
 ## Article result archive
 
 The `results/` directory contains the numerical and graphical outputs used to
-support the associated manuscript. These archived results are intentionally
-versioned with the software so that the calculations, representative figures,
-and phase interpretation can be traced to the same release.
+support the associated manuscript:
 
 - `results/RoC_raw/`: time-scale-specific IBR, TS, and IQR results;
 - `results/RoC_norm/`: merged LRI-corrected relative RoC tables;
 - `results/PWLF/`: breakpoint and significance tables for 50-1000 kyr;
 - `results/KDE/`: pooled breakpoint tables, KDE peaks, and density figures;
 - `results/Phase/`: phase-level figures for IBR, TS, and IQR;
-- `results/sampling_density/`: random-subsampling metrics, ensemble summaries,
-  and Appendix C vector figures for the 100 and 1000 kyr analyses;
-- `results/MANIFEST.csv`: machine-readable inventory with file sizes and hashes;
-- `results/DATA_DICTIONARY.md`: definitions of directories, metrics, and fields.
+- `results/sampling_density/`: compact sensitivity metrics, ensemble summaries,
+  and Appendix C vector figures;
+- `results/MANIFEST.csv`: machine-readable inventory with normalized file sizes
+  and SHA-256 hashes;
+- `results/checksums.sha256`: plain-text checksum list; and
+- `results/DATA_DICTIONARY.md`: field definitions and interpretation notes.
+
+The complete 200-iteration sampling-density tables are supplied as the separate
+release asset `RoC_sampling_density_full_iterations_v1.0.1.zip`.
 
 See [results/README.md](results/README.md) for interpretation and citation
-guidance. The Windows executable remains a release asset rather than part of
-the ordinary Git history because of its archive size.
+guidance.
 
 ## Method summary
 
-- **IBR:** time-bin mean → interpolation → inter-bin rate.
-- **TS:** robust Theil-Sen slope within each time bin → interpolation.
-- **IQR:** within-bin interquartile range → interpolation.
-- **LRI correction:** observed RoC divided by the method-specific fitted baseline at each analytical time scale.
-- **Phase analysis:** PWLF candidate breakpoints → method-specific KDE consensus → phase statistics.
+- **IBR:** time-bin mean -> interpolation -> inter-bin rate.
+- **TS:** robust Theil-Sen slope within each time bin -> interpolation.
+- **IQR:** within-bin interquartile range -> interpolation.
+- **LRI correction:** observed RoC divided by the method- and scale-specific
+  fitted baseline.
+- **Phase analysis:** PWLF candidate breakpoints -> method-specific KDE
+  consensus -> phase statistics.
 
 See [docs/METHODS.md](docs/METHODS.md) for implementation details.
 
@@ -206,26 +235,27 @@ See [docs/METHODS.md](docs/METHODS.md) for implementation details.
 
 ```text
 .
-├── main.py
-├── gui.py
-├── run_sampling_density_analysis.py
-├── roc/
-├── data/
-├── results/
-├── docs/
-├── config_test.yaml
-├── config_full.yaml
-├── requirements.txt
-├── CITATION.cff
-├── .github/
-├── UPLOAD_GUIDE.md
-└── UPLOAD_TO_GITHUB.bat
+|-- main.py
+|-- gui.py
+|-- run_sampling_density_analysis.py
+|-- roc/
+|-- data/
+|-- results/
+|-- docs/
+|-- tests/
+|-- config_test.yaml
+|-- config_full.yaml
+|-- requirements.txt
+|-- requirements-lock.txt
+|-- CITATION.cff
+`-- .github/
 ```
 
 ## Citation
 
-Please cite the associated manuscript and the software release. GitHub can
-generate a formatted software citation from `CITATION.cff` using the
+Please cite the associated manuscript and the exact
+[Deeptime RoC Analysis v1.0.1 release](https://github.com/CUGB-zhaohy/Rates-of-Change-for-Deeptime/releases/tag/v1.0.1).
+GitHub can generate a formatted software citation from `CITATION.cff` using the
 **Cite this repository** button.
 
 ## Contributing and support
@@ -237,4 +267,4 @@ generate a formatted software citation from `CITATION.cff` using the
 
 ## License
 
-This project is released under the [MIT License](LICENSE).
+Deeptime RoC Analysis is released under the [MIT License](LICENSE).

@@ -2,7 +2,7 @@
 
 All notable software changes are documented here.
 
-## [1.0.1] - 2026-06-12
+## [1.0.1] - 2026-08-31
 
 ### Added
 
@@ -24,3 +24,13 @@ All notable software changes are documented here.
 - IQR is a within-bin variability metric rather than a conventional rate estimator.
 - Sampling-density sensitivity remains a separate analysis outside the main
   GUI workflow and is launched with `run_sampling_density_analysis.py`.
+
+### Publication release cleanup
+
+- Standardized the public-facing software name as **Deeptime RoC Analysis**.
+- Corrected and version-aligned the Windows user manual and release metadata.
+- Added a tested dependency lock file for reproducible source installations.
+- Regenerated the manuscript result manifest and SHA-256 checksum lists after
+  Git line-ending normalization.
+- Removed maintainer-only upload files and an accidentally nested repository copy
+  from the public source tree.

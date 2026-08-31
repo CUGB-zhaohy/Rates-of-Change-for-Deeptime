@@ -1,32 +1,35 @@
 # Deeptime RoC Analysis v1.0.1
 
-This is the first public Windows release of the multi-timescale deep-time RoC
-workflow.
+Final public release date: 2026-08-31
 
 ## Download
 
-Attach `RoC_Workflow_Windows_v1.0.1.zip` to the GitHub release. Users should
-extract the complete archive, keep `_internal` beside `RoC_Workflow.exe`, and
-launch `RoC_Workflow.exe`.
+Windows users should download `RoC_Workflow_Windows_v1.0.1.zip` from this release, extract the archive, and double-click `RoC_Workflow.exe`.
+
+The executable filename remains `RoC_Workflow.exe` in v1.0.1 for compatibility with the previously prepared Windows package. The software name used in the manuscript, manual, interface, and public documentation is **Deeptime RoC Analysis**.
 
 ## Highlights
 
-- No Python installation is required for the packaged Windows application.
-- Five guided pages cover input, settings, advanced analysis, run/log, and result preview.
-- Supports IBR, TS, IQR, LRI correction, nTV/Gini, PWLF, KDE, phase statistics, and figures.
-- Includes quick-test and full-resolution configurations.
-- Accepts user-supplied Excel age-value records.
-- Weighted interpolation uses only the two nearest valid bins that bracket an internal missing target; more distant valid bins do not contribute.
+- Provides a graphical Windows workflow and an equivalent Python command-line workflow for deep-time rate-of-change analysis.
+- Includes the manuscript parameter configuration (`config_full.yaml`) and a faster installation test (`config_test.yaml`).
+- Includes a separate sampling-density sensitivity workflow.
+- Standardizes the public-facing software name as **Deeptime RoC Analysis**.
+- Removes maintainer-only upload files and an accidentally nested repository copy from the public source tree.
+- Corrects the Windows manual, output-directory documentation, release date, and result checksums.
+- Adds an exact dependency lock file and automated release-integrity checks.
 
-## Known limitation
+## Reproducibility
 
-Sampling-density sensitivity analysis is not included in the v1.0.1 main GUI
-workflow and should be run separately when needed.
+The source tree, bundled example data, configuration files, tests, result archive, and checksums are included in the tagged release. Run `python -m unittest discover -s tests -v` from a source installation to execute the automated checks.
 
-## Checksums
+`config_full.yaml` records the analysis settings used for the manuscript. `config_test.yaml` is intentionally smaller and is intended only for installation and workflow verification.
 
-`RoC_Workflow_Windows_v1.0.1.zip`
+## Platform note
 
-```text
-SHA-256: 6897147058A1A885FE6A85CDA08438A7BB13F89CDB79DDE69520364146DF8862
-```
+The prebuilt executable is for 64-bit Windows. The Python source and launchers are also available in the repository for Windows and macOS users.
+
+## Asset verification
+
+The Windows archive is accompanied by `RoC_Workflow_Windows_v1.0.1.zip.sha256.txt`. The sampling-density archive already attached to this release has SHA-256:
+
+`9CA3DDE8F59140D65C4A3B36D4322D5C700F93F16F2C37C78153E2FF62DCFD60`
