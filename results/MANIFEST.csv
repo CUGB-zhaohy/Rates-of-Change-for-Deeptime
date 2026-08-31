@@ -216,7 +216,7 @@
 "sampling_density/checksums.sha256","metadata","","","sha256","3329","59e48997187cb51cb9514eaea864bc9bfdff09e51f3cb4753cc580a9ffc18ad6","Sampling-density SHA-256 checksum list"
 "sampling_density/figures/Fig_C1_sampling_density_sensitivity_100kyr.svg","sampling_density_figure","","100","svg","4045332","f0e80f131fab0fd511dc5ad31d201da3150a5bcf62479800186224869de8ed0f","Appendix C sampling-density sensitivity figure"
 "sampling_density/figures/Fig_C2_sampling_density_sensitivity_1000kyr.svg","sampling_density_figure","","1000","svg","3929767","dced6e6885f38acaa6f0b08ad92f48dc163a011700893f85d09a2d2d9dee1c5e","Appendix C sampling-density sensitivity figure"
-"sampling_density/MANIFEST.csv","metadata","","","csv","6120","1b9cddb34d370db4b04502b1f0aad467390a01dacee4f713d4ebbe571b412239","Sampling-density machine-readable inventory"
+"sampling_density/MANIFEST.csv","metadata","","","csv","6092","1715c576c8e2c9c04af92d59f10956577e8a3d5f31d3087b62d7091edc1dc469","Sampling-density machine-readable inventory"
 "sampling_density/metrics/O_RandomSubsampling_IBR_1000kyr_100kyr_metrics.csv","sampling_density_metrics","IBR","1000","csv","10508","99e6b107cd90203489350169325b28eccc6e4c4ce017396935010bde1c385a01","Per-iteration MAE and MAPE values"
 "sampling_density/metrics/O_RandomSubsampling_IBR_1000kyr_20kyr_metrics.csv","sampling_density_metrics","IBR","1000","csv","10394","dc6b91c189e2599f62a62f18e432a7fe932d5e9a61e7f6a26df89922854841df","Per-iteration MAE and MAPE values"
 "sampling_density/metrics/O_RandomSubsampling_IBR_1000kyr_50kyr_metrics.csv","sampling_density_metrics","IBR","1000","csv","10341","d8895f70ed2128cf5c4898164701c1c1fee3e205e1dde1be1544d266c80e4e76","Per-iteration MAE and MAPE values"

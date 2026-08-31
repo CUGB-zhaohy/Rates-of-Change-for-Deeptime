@@ -37,7 +37,12 @@ def refresh(directory: Path) -> None:
         row["sha256"] = sha256(path)
 
     with manifest_path.open("w", encoding="utf-8", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+        writer = csv.DictWriter(
+            stream,
+            fieldnames=fieldnames,
+            quoting=csv.QUOTE_ALL,
+            lineterminator="\n",
+        )
         writer.writeheader()
         writer.writerows(rows)
 
